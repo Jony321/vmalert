@@ -1,0 +1,5 @@
+---
+- name: Reload vmalert
+  uri:
+    url: "{{ vmalert_reload_url }}"
+    method: POST

@@ -1,0 +1,52 @@
+---
+- name: Ensure config directory
+  file:
+    state: directory
+    path: "{{ vmalert_config_dir }}/templates"
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Show prometheus hosts
+  debug:
+    msg: "Prometheus hosts are: {{ groups[prometheus_inventory_group] }}"
+
+- name: Ensure templates files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ vmalert_config_dir }}/templates/{{ item | basename }}"
+    mode: 0644
+    owner: root
+    group: root
+  # Fileglob always operates started from 'files' dir, so move to 'templates'
+  # explicitly
+  with_fileglob:
+    - templates/*.yml
+  notify:
+    - Reload vmalert
+  register: vmalert_reconfig
+
+- name: Start docker vmalert container
+  docker_compose:
+    state: present
+    project_name: vmalert
+    restarted: "{{ 'yes' if vmalert_reconfig.changed else 'no' }}"
+    definition:
+      version: '2'
+      services:
+        vmalert:
+          image: "{{ vmalert_docker_image }}"
+          container_name: "{{ vmalert_container_name }}"
+          ports:
+            - "127.0.0.1:8880:8880"
+          volumes:
+            - "{{ vmalert_config_dir }}/templates:/etc/alerts"
+          hostname: "{{ vmalert_container_name }}"
+          restart: always
+          labels: "{{ vmalert_docker_labels }}"
+          command: "{{ vmalert_command }}"
+
+      networks:
+        default:
+          external:
+            name: "{{ vmalert_docker_network_name }}"
