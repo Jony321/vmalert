@@ -5,6 +5,7 @@ vmalert_docker_image: "victoriametrics/vmalert:v1.63.0"
 vmalert_docker_labels:
   - vmalert
 vmalert_config_dir: /var/lib/vmalert
+vmalert_address: "127.0.0.1:"
 
 vmalert_command:
   # vmselect or balancer
