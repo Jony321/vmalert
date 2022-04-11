@@ -7,10 +7,6 @@
     owner: root
     group: root
 
-- name: Show prometheus hosts
-  debug:
-    msg: "Prometheus hosts are: {{ groups[prometheus_inventory_group] }}"
-
 - name: Ensure templates files
   copy:
     src: "{{ item }}"
@@ -22,6 +18,18 @@
   # explicitly
   with_fileglob:
     - templates/*.yml
+  notify:
+    - Reload vmalert
+  register: vmalert_reconfig
+
+- name: Ensure additional templates files
+  copy:
+    content: "{{ item.data }}"
+    dest: "{{ vmalert_config_dir }}/templates/{{ item.filename }}"
+    mode: 0644
+    owner: root
+    group: root
+  with_items: "{{ vmalert_additional_alerts }}"
   notify:
     - Reload vmalert
   register: vmalert_reconfig
@@ -38,7 +46,7 @@
           image: "{{ vmalert_docker_image }}"
           container_name: "{{ vmalert_container_name }}"
           ports:
-            - "{{ vmalert_address }}8880:8880"
+            - "{{ vmalert_address }}:8880:8880"
           volumes:
             - "{{ vmalert_config_dir }}/templates:/etc/alerts"
           hostname: "{{ vmalert_container_name }}"

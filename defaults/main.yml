@@ -5,7 +5,34 @@ vmalert_docker_image: "victoriametrics/vmalert:v1.63.0"
 vmalert_docker_labels:
   - vmalert
 vmalert_config_dir: /var/lib/vmalert
-vmalert_address: "127.0.0.1:"
+vmalert_address: "127.0.0.1"
+vmalert_additional_alerts: []
+  # Example of additional alerts. They will be placed in file named in
+  # 'filename' field value with content of 'data' field. You can add as many
+  # alerts as needed.
+  # - filename: some_service_alerts.yml
+  #   data:
+  #     groups:
+  #       - name: TLS.rules
+  #         rules:
+  #           - alert: TLSCertExpiringSoon
+  #             expr: "1 < (probe_ssl_earliest_cert_expiry - time()) / 86400 < 7"
+  #             for: 10m
+  #             labels:
+  #               severity: warning
+  #             annotations:
+  #               summary: !unsafe"{{ $labels.node_name }} has a {{ $labels.instance }} endpoint with expiring cert."
+  #               description: !unsafe"{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value }}s). Services may be degraded - please take action"
+  #
+  #           - alert: TLSCertExpiringInDay
+  #             expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 1
+  #             for: 10m
+  #             labels:
+  #               severity: critical
+  #             annotations:
+  #               summary: !unsafe"{{ $labels.node_name }} has a {{ $labels.instance }} endpoint with expiring cert."
+  #               description: !unsafe"{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value }}s). Services may be degraded - please take action"
+
 
 vmalert_command:
   # vmselect or balancer
