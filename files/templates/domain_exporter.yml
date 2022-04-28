@@ -8,9 +8,9 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "{{ $labels.node_name }} domain exporter is down."
-          summary_resolved: "{{ $labels.node_name }} domain exporter is up."
-          description: "Returned value is {{ .Value }} for {{ $labels.node_name }} domain exporter."
+          summary: "{{ $labels.dns_hostname }} domain exporter is down."
+          summary_resolved: "{{ $labels.dns_hostname }} domain exporter is up."
+          description: "Returned value is {{ .Value }} for {{ $labels.dns_hostname }} domain exporter."
       - alert: DomainNotAnswering
         expr: domain_expiry_days <= 0
         for: 1h

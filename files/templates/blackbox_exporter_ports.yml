@@ -8,16 +8,16 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "{{ $labels.node_name }} blackbox exporter is down."
-          summary_resolved: "{{ $labels.node_name }} blackbox exporter is up."
-          description: "Returned value is {{ .Value }} for {{ $labels.node_name }} blackbox exporter."
+          summary: "{{ $labels.dns_hostname }} blackbox exporter is down."
+          summary_resolved: "{{ $labels.dns_hostname }} blackbox exporter is up."
+          description: "Returned value is {{ .Value }} for {{ $labels.dns_hostname }} blackbox exporter."
       - alert: PortIsOpen
         expr: probe_success{job=~'.*_closed'} > 0
         for: 5m
         labels:
           severity: critical
         annotations:
-          summary: "{{ $labels.node_name }} ({{ $labels.dns_hostname }}) has a port open on instance {{ $labels.instance }} but it should be closed"
+          summary: "{{ $labels.dns_hostname }} ({{ $labels.dns_hostname }}) has a port open on instance {{ $labels.instance }} but it should be closed"
           description: "{{ $labels.instance }} port check return value: {{ $value }}s). Services may be degraded - please take action"
 
       - alert: PortIsClosed
@@ -26,5 +26,5 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "{{ $labels.node_name }} ({{ $labels.dns_hostname }}) has a port closed on instance {{ $labels.instance }} but it should be opened"
+          summary: "{{ $labels.dns_hostname }} ({{ $labels.dns_hostname }}) has a port closed on instance {{ $labels.instance }} but it should be opened"
           description: "{{ $labels.instance }} port check return value: {{ $value }}s). Services may be degraded - please take action"

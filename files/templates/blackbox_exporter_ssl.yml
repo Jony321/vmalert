@@ -8,7 +8,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{{ $labels.node_name }} has a {{ $labels.instance }} endpoint with expiring cert."
+          summary: "{{ $labels.dns_hostname }} has a {{ $labels.instance }} endpoint with expiring cert."
           description: "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value }}s). Services may be degraded - please take action"
 
       - alert: TLSCertExpiringInDay
@@ -17,5 +17,5 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "{{ $labels.node_name }} has a {{ $labels.instance }} endpoint with expiring cert."
+          summary: "{{ $labels.dns_hostname }} has a {{ $labels.instance }} endpoint with expiring cert."
           description: "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value }}s). Services may be degraded - please take action"
