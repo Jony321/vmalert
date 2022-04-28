@@ -57,7 +57,7 @@ groups:
           summary_resolved: "Disk write rate is under 50mbit/s on {{ $labels.node_name }}"
           description: "Disk is probably writing too much data (> 50 MB/s)on {{ $labels.node_name }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
       - alert: OutOfDiskSpace
-        expr: node_filesystem_avail_bytes{device!~"tmpfs|lxcfs|cgmfs"} / node_filesystem_size_bytes{device!~"tmpfs|lxcfs|cgmfs"} * 100 < 5 AND node_filesystem_avail_bytes{device!~"tmpfs|lxcfs|cgmfs"} / 1024 / 1024 / 1024 < 5
+        expr: node_filesystem_avail_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} / node_filesystem_size_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} * 100 < 5 AND node_filesystem_avail_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} / 1024 / 1024 / 1024 < 5
         for: 10m
         labels:
           severity: warning
@@ -129,7 +129,7 @@ groups:
           summary_resolved: "Entropy bits are okay on {{ $labels.node_name }}"
           description: "Entropy bits count is too small on {{ $labels.node_name }} it can slow some crypto operations"
       - alert: ServiceIsDown
-        expr: node_systemd_unit_state{state="failed",name!~"hv-.*"} == 1
+        expr: node_systemd_unit_state{state="failed",name!~"hv-.*|fwupd-refresh.*"} == 1
         for: 5m
         labels:
           severity: warning
