@@ -24,7 +24,7 @@
 
 - name: Ensure additional templates files
   copy:
-    content: "{{ item.data }}"
+    content: "{{ item.data | to_nice_yaml(indent=2) }}"
     dest: "{{ vmalert_config_dir }}/templates/{{ item.filename }}"
     mode: 0644
     owner: root
