@@ -63,7 +63,7 @@ groups:
           severity: warning
         annotations:
           summary: "Out of disk space on {{ $labels.dns_hostname }}, only {{ printf \"%.2f\" $value }}Gb available on {{ $labels.mountpoint }} mountpoint"
-          summary_resolved: "Disk usage has more than 5Gb free on {{ $labels.dns_hostname }}, {{ printf \"%.2f\" $value }}Gb available on {{ $labels.mountpoint }} mountpoint"
+          summary_resolved: "Disk usage has enough free space on {{ $labels.dns_hostname }}"
           description: "Disk is almost full {{ $labels.dns_hostname }}"
       - alert: OutOfInodes
         expr: node_filesystem_files_free{mountpoint ="/rootfs"} / node_filesystem_files{mountpoint ="/rootfs"} * 100 < 5
