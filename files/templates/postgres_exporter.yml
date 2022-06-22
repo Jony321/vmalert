@@ -62,8 +62,8 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "PostgreSQL low cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }}"
-          description: "PostgreSQL low on cache hit rate on {{ $labels.cluster }} for database {{ $labels.datname }} with a value of {{ $value }}"
+          summary: "PostgreSQL low cache hit rate for database {{ $labels.datname }}"
+          description: "PostgreSQL low on cache hit rate for database {{ $labels.datname }} with a value of {{ $value }}"
 
       - alert: PostgresqlRestarted
         expr: time() - pg_postmaster_start_time_seconds < 60
