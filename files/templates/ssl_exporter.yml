@@ -21,3 +21,24 @@ groups:
           summary:  "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value }}"
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
           description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is expired. Fixed this immediately bitches"
+
+      - alert: SSLCertificateExpiredHaproxy
+        expr: 'ssl_cert_not_after - time() < 86400 * 7'
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.instance }} ssl certificate is expired with "
+          summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
+          description: "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value }}"
+
+
+      - alert: SSLCertificateExpiredHaproxy
+        expr: 'ssl_cert_not_after - time() < 86400 * 3'
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary:  "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value }}"
+          summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
+          description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is expired. Fixed this immediately bitches"
