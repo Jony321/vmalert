@@ -11,7 +11,7 @@ groups:
           summary: "{{ $labels.instance }} ssl certificate is expired with (current value: {{ $value | humanizeTimestamp }} "
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
           description: "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value | humanizeTimestamp }}"
-    
+
       - alert: SSLFileCertificateExpired
         expr: 'ssl_file_cert_not_after - time() < 86400 * 3'
         for: 10m
@@ -20,7 +20,7 @@ groups:
         annotations:
           summary:  "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value | humanizeTimestamp }}"
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
-          description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is expired. Fixed this immediately bitches"
+          description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is expiring."
 
       - alert: SSLURLCertificateExpired
         expr: 'ssl_cert_not_after - time() < 86400 * 7'
@@ -40,14 +40,14 @@ groups:
         annotations:
           summary:  "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value | humanizeTimestamp }}"
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
-          description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is expired. Fixed this immediately bitches"
-     
+          description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is expiring"
+
       - alert: SSLCertificateNone
         expr: 'ssl_probe_success == 0'
         for: 10m
         labels:
-          severity: critical 
+          severity: critical
         annotations:
           summary:  "{{ $labels.instance }} TLS certificate is none (current value: {{ $value }}"
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
-          description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is NoNe. Fixed this immediately bitches"
+          description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is NoNe."
