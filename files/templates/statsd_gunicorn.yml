@@ -12,7 +12,7 @@ groups:
           summary_resolved: "{{ $labels.dns_hostname }} statsd exporter is up."
           description: "Returned value is {{ $value }} for {{ $labels.dns_hostname }} statsd exporter."
       - alert: Requests are too long
-        expr: gunicorn_request_duration{quantile='0.99'} > 1
+        expr: gunicorn_request_duration{quantile='0.99'} > 300
         for: 5s
         labels:
           severity: critical
