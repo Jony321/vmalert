@@ -1,0 +1,13 @@
+---
+groups:
+  - name: vmagent.rules
+    rules:
+      - alert: ScrapeTargetIsDown
+        expr: !unsafe 'sum by (dns_hostname) (vm_promscrape_targets{status="down"}) > 0'
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: !unsafe "Scrape targets in the amound {{ $value }} on host {{ $labels.dns_hostname }} are down."
+          summary_resolved: !unsafe "{{ $labels.dns_hostname }} scrape targets are up."
+          description: !unsafe "Scrape targets in the amound {{ $value }} on host {{ $labels.dns_hostname }} are down."
