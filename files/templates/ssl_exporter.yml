@@ -1,7 +1,7 @@
 ---
 groups:
-  -name: SSLCertificateExpiration
-   rules:
+  - name: SSLCertificateExpiration
+    rules:
       - alert: SSLFileCertificateExpiration
         expr: 'ssl_file_cert_not_after - time() < 86400 * 7'
         for: 10m
