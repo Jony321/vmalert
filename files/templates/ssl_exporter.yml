@@ -8,9 +8,9 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{{ $labels.instance }} ssl certificate is expiring in (current value: {{ $value | humanizeDuration }} "
+          summary: "{{ $labels.instance }} ssl certificate is expiring in {{ $value | humanizeDuration }} "
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
-          description: "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value | humanizeDuration }}"
+          description: "{{ $labels.instance }} TLS certificate is expiring in {{ $value | humanizeDuration }}"
 
       - alert: SSLFileCertificateExpiration
         expr: 'ssl_file_cert_not_after - time() < 86400 * 3'
@@ -18,7 +18,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary:  "{{ $labels.instance }} TLS certificate is expiring in (current value: {{ $value | humanizeDuration }}"
+          summary:  "{{ $labels.instance }} TLS certificate is expiring in {{ $value | humanizeDuration }}"
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
           description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is expiring."
 
@@ -28,9 +28,9 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{{ $labels.instance }} ssl certificate is expiring in (current value: {{ $value | humanizeDuration }}  "
+          summary: "{{ $labels.instance }} ssl certificate is expiring in {{ $value | humanizeDuration }}  "
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
-          description: "{{ $labels.instance }} TLS certificate is expiring (current value: {{ $value | humanizeDuration}}"
+          description: "{{ $labels.instance }} TLS certificate is expiring in {{ $value | humanizeDuration}}"
 
       - alert: SSLURLCertificateExpiration
         expr: 'ssl_cert_not_after - time() < 86400 * 3'
@@ -38,7 +38,7 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary:  "{{ $labels.instance }} TLS certificate is expiring in (current value: {{ $value | humanizeDuration }}"
+          summary:  "{{ $labels.instance }} TLS certificate is expiring in {{ $value | humanizeDuration }}"
           summary_resolved: "{{ $labels.instance }} ssl exporter with endpoint {{ $labels.dns_hostname }} is ok."
           description: "Alarm! Achtung! {{ $labels.instance }} ssl certificate is expiring"
 
