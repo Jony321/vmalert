@@ -18,10 +18,3 @@ groups:
         annotations:
           summary: !unsafe "{{ $labels.dns_hostname }} too much ntp offset."
           description: !unsafe "Returned value is {{ $value }} for {{ $labels.dns_hostname }}."
-      - alert: NtpSanityCheckFailed
-        expr: !unsafe 'node_ntp_sanity != 1'
-        for: 300s
-        labels:
-          severity: warning
-        annotations:
-          summary: !unsafe "{{ $labels.dns_hostname }} ntp sanity check failed."
