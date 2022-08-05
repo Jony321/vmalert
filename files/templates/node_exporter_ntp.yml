@@ -3,18 +3,18 @@ groups:
   - name: node_ntp.rules
     rules:
       - alert: NodeIsUnsynchronised
-        expr: !unsafe 'node_ntp_stratum > 16'
+        expr: 'node_ntp_stratum > 16'
         for: 300s
         labels:
           severity: warning
         annotations:
-          summary: !unsafe "{{ $labels.dns_hostname }} node ntp stratum equal or more than 16. That means this node is unsynchronised."
-          description: !unsafe "Returned value is {{ $value }} for {{ $labels.dns_hostname }}."
+          summary: "{{ $labels.dns_hostname }} node ntp stratum equal or more than 16. That means this node is unsynchronised."
+          description: "Returned value is {{ $value }} for {{ $labels.dns_hostname }}."
       - alert: TooMuchOffset
-        expr: !unsafe 'node_ntp_offset_seconds > 3'
+        expr: 'node_ntp_offset_seconds > 3'
         for: 300s
         labels:
           severity: warning
         annotations:
-          summary: !unsafe "{{ $labels.dns_hostname }} too much ntp offset."
-          description: !unsafe "Returned value is {{ $value }} for {{ $labels.dns_hostname }}."
+          summary: "{{ $labels.dns_hostname }} too much ntp offset."
+          description: "Returned value is {{ $value }} for {{ $labels.dns_hostname }}."
