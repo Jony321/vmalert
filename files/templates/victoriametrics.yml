@@ -8,6 +8,6 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Scrape targets in the amound {{ $value }} on host {{ $labels.dns_hostname }} are down."
+          summary: "Scrape targets in the amount {{ $value }} on host {{ $labels.dns_hostname }} are down."
           summary_resolved: "{{ $labels.dns_hostname }} scrape targets are up."
-          description: "Scrape targets in the amound {{ $value }} on host {{ $labels.dns_hostname }} are down."
+          description: "Scrape targets in the amount {{ $value }} on host {{ $labels.dns_hostname }} are down."
