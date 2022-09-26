@@ -120,7 +120,7 @@ groups:
           summary_resolved: "Uptime is okay on {{ $labels.dns_hostname }}"
           description: "Uptime is too small on {{ $labels.dns_hostname }}, looks that node was rebooted"
       - alert: OutOfEntropy
-        expr: node_entropy_available_bits < 300
+        expr: node_entropy_available_bits < 200
         for: 5m
         labels:
           severity: warning
