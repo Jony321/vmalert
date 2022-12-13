@@ -17,15 +17,15 @@ groups:
         labels:
           severity: warning
         annotations:
-          description: 'Domain {{ $labels.domain }} check returns wrong code'
+          summary: '{{ $labels.domain }}: domain is expiring.'
           summary_resolved: "{{ $labels.domain }} watched properly."
-          summary: '{{ $labels.domain }}: domain is expiring'
+          description: 'Domain {{ $labels.domain }} check returns wrong code'
       - alert: DomainExpiring
         expr: 0 < domain_expiry_days < 5
         for: 1h
         labels:
           severity: critical
         annotations:
-          description: 'Domain {{ $labels.domain }} will expire in less than 5 days'
+          summary: '{{ $labels.domain }}: domain will expire in {{ $value }} days.'
           summary_resolved: "{{ $labels.domain }} is not expiring anymore."
-          summary: '{{ $labels.domain }}: domain is expiring'
+          description: 'Domain {{ $labels.domain }} will expire in less than 5 days'
