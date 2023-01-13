@@ -4,7 +4,7 @@ groups:
     rules:
       - alert: ExporterDown
         expr: up{scrape_type=~"grok_exporter.*"} == 0
-        for: 1m
+        for: 90s
         labels:
           severity: critical
         annotations:
