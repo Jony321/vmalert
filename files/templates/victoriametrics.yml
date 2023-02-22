@@ -3,7 +3,7 @@ groups:
   - name: vmagent.rules
     rules:
       - alert: ScrapeTargetIsDown
-        expr: 'sum by (dns_hostname) (vm_promscrape_targets{status="down"}) > 0'
+        expr: 'sum by (dns_hostname,env,domainname) (vm_promscrape_targets{status="down"}) > 0'
         for: 10s
         labels:
           severity: critical
