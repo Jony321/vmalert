@@ -1,0 +1,22 @@
+---
+groups:
+  - name: network.rules
+    rules:
+      - alert: UnusualNetworkThroughputIn
+        expr: sum by (instance,env,dns_hostname,domainname) (irate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 100
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Unusual network throughput for a more than 30m to the instance {{ $labels.dns_hostname }}"
+          summary_resolved: "Network activity is under 100mbit/s on {{ $labels.dns_hostname }}"
+          description: "Host network interfaces on {{ $labels.dns_hostname }} are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+      - alert: UnusualNetworkThroughputOut
+        expr: sum by (instance,env,dns_hostname,domainname) (irate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 100
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Unusual network throughput for a more than 30m from the instance {{ $labels.dns_hostname }}"
+          summary_resolved: "Network activity is under 100mbit/s on {{ $labels.dns_hostname }}"
+          description: "Host network interfaces on {{ $labels.dns_hostname }} are probably sending too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

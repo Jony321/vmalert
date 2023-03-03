@@ -1,0 +1,13 @@
+---
+groups:
+  - name: memory.rules
+    rules:
+      - alert: OutOfMemory
+        expr: (node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes * 100 < 5
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Out of memory on {{ $labels.dns_hostname }}, usage is more than 95%"
+          summary_resolved: "Memory usage is under 95% on {{ $labels.dns_hostname }}"
+          description: "Node {{ $labels.dns_hostname }} memory is filling up"
