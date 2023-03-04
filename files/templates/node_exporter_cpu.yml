@@ -1,0 +1,22 @@
+---
+groups:
+  - name: cpu.rules
+    rules:
+      - alert: CpuLoad
+        expr: node_load15 / (count without (cpu, mode) (node_cpu_seconds_total{mode="system"})) > 2
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU load is too high on {{ $labels.dns_hostname }}"
+          summary_resolved: "CPU load is okay on {{ $labels.dns_hostname }}"
+          description: "CPU load (15m) is high on {{ $labels.dns_hostname }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+      - alert: ContextSwitching
+        expr: rate(node_context_switches_total[5m]) > 1000000
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Context switching is too high (> 1000000 / s) on {{ $labels.dns_hostname }}"
+          summary_resolved: "Context switching is okay on {{ $labels.dns_hostname }}"
+          description: "Context switching is growing on node (> 1000000 / s) on {{ $labels.dns_hostname }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

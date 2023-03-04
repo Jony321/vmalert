@@ -4,7 +4,7 @@ groups:
     rules:
       - alert: ScrapeTargetIsDown
         expr: 'sum by (dns_hostname,env,domainname) (vm_promscrape_targets{status="down"}) > 0'
-        for: 30s
+        for: 50s
         labels:
           severity: critical
         annotations:
