@@ -21,7 +21,7 @@ groups:
           summary_resolved: "Disk write rate is under 50mbit/s on {{ $labels.dns_hostname }}"
           description: "Disk is probably writing too much data (> 50 MB/s)on {{ $labels.dns_hostname }}\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
       - alert: OutOfDiskSpace
-        expr: node_filesystem_avail_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} / node_filesystem_size_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} * 100 < 5 AND node_filesystem_avail_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} / 1024 / 1024 / 1024 < 5
+        expr: node_filesystem_avail_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} / node_filesystem_size_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} * 100 < 10 AND node_filesystem_avail_bytes{device!~"tmpfs|lxcfs|cgmfs", mountpoint!~".*swap.*"} / 1024 / 1024 / 1024 < 15
         for: 10m
         labels:
           severity: warning
