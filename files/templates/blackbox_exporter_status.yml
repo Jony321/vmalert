@@ -10,3 +10,11 @@ groups:
         annotations:
           summary: "{{ $labels.instance }} returns wrong HTTP code ({{ $value }})"
           description: "{{ $labels.instance }} returns wrong HTTP code: {{ $value }}). Services may be degraded - please take action"
+      - alert: HttpSlowRequests
+        expr: avg_over_time(probe_http_duration_seconds[2m]) > 1
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "HTTP slow requests from instance {{ $labels.instance }}"
+          description: "HTTP request took more than 1s\n form {{ $labels.instance }}"
