@@ -55,3 +55,47 @@
         default:
           external:
             name: "{{ vmalert_docker_network_name }}"
+  when: not vmalert_swarm_cluster or vm_swarm_manager is undefined
+
+- name: Deploy vmalert to docker swarm
+  block:
+    - name: Ensure pip installation
+      package:
+        name: "python3-pip"
+        state: present
+
+    - name: Install newer version of pip itself
+      pip:
+        name: "pip"
+        state: latest
+        executable: pip3
+
+    - name: Install jsondiff from pip
+      pip:
+        name: "jsondiff"
+        state: present
+        executable: pip3
+
+    - name: Deploy docker vmalert container in swarm
+      community.docker.docker_stack:
+        state: present
+        name: "{{ vmalert_stack_name }}"
+        compose:
+          - version: '3.5'
+            services:
+              vmalert:
+                image: "{{ vmalert_docker_image }}"
+                command: "{{ vmalert_command }}"
+                hostname: "{{ vmalert_container_name }}"
+                labels: "{{ vmalert_docker_labels }}"
+                volumes:
+                  - "{{ vmalert_config_dir }}/templates:/etc/alerts"
+                deploy: "{{ vmalert_swarm_deploy }}"
+            networks:
+              default:
+                external:
+                  name: "{{ vmalert_docker_network_name }}"
+  delegate_to: "{{ vm_swarm_manager }}"
+  when:
+    - vmalert_swarm_cluster
+    - vm_swarm_manager is defined
