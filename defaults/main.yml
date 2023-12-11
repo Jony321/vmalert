@@ -49,3 +49,27 @@ vmalert_command:
   - !unsafe '--external.alert.source=explore?orgId=1&left=["now-1h","now","VictoriaMetrics",{"expr":"{{$$expr|quotesEscape|crlfEscape|queryEscape}}"},{"mode":"Metrics"},{"ui":[true,true,true,"none"]}]'
 
 vmalert_reload_url: 'http://127.0.0.1:8880/-/reload'
+
+vmalert_stack_name: victoriametrics
+vmalert_swarm_cluster: false
+vmalert_swarm_deploy:
+  mode: replicated
+  replicas: 1
+  placement:
+    constraints:
+      - node.labels.victoriametrics == true
+
+# example:
+# mode: replicated
+# replicas: 2
+# restart_policy:
+#   condition: any
+#   delay: 10s
+# update_config:
+#   parallelism: 1
+#   delay: 30s
+#   failure_action: rollback
+# placement:
+#   max_replicas_per_node: 1
+#   constraints:
+#     - node.labels.victoriametrics == true
