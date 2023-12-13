@@ -95,6 +95,7 @@
               default:
                 external:
                   name: "{{ vmalert_docker_network_name }}"
+      run_once: True
   delegate_to: "{{ vm_swarm_manager }}"
   when:
     - vmalert_swarm_cluster
