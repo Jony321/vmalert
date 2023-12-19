@@ -48,7 +48,8 @@ vmalert_command:
   # when copypaste the line below be aware of '$$' for escaping in '$expr'
   - !unsafe '--external.alert.source=explore?orgId=1&left=["now-1h","now","VictoriaMetrics",{"expr":"{{$$expr|quotesEscape|crlfEscape|queryEscape}}"},{"mode":"Metrics"},{"ui":[true,true,true,"none"]}]'
 
-vmalert_reload_url: 'http://127.0.0.1:8880/-/reload'
+vmalert_port: '8880'
+vmalert_reload_url: 'http://127.0.0.1:{{ vmalert_port }}/-/reload'
 
 vmalert_stack_name: victoriametrics
 vmalert_swarm_cluster: false
