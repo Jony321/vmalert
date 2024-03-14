@@ -1,0 +1,53 @@
+groups:
+- name: patroni_alerts.rules
+  rules:
+  - alert: ExporterDown
+    annotations:
+      summary: '{{ $labels.dns_hostname }} patroni exporter is down.'
+      summary_resolved: '{{ $labels.dns_hostname }} patroni exporter is up.'
+    expr: up{scrape_type="patroni_metrics"} == 0
+    for: 3m
+    labels:
+      severity: critical
+  - alert: MasterON
+    annotations:
+      description: In {{ $labels.scope }} {{ $labels.dns_hostname }} has became master.
+      summary: In {{ $labels.scope }} {{ $labels.dns_hostname }} has became master.
+    expr: delta(patroni_primary[2m]) > 0
+    for: 1m
+    labels:
+      severity: critical
+  - alert: MasterOFF
+    annotations:
+      description: In {{ $labels.scope }} {{ $labels.dns_hostname }} has stopped being
+        a master.
+      summary: In {{ $labels.scope }} {{ $labels.dns_hostname }} has stopped being
+        a master.
+    expr: delta(patroni_primary[2m]) < 0
+    for: 1m
+    labels:
+      severity: critical
+  - alert: NotAllMembers
+    annotations:
+      description: There are not all working memebers in cluster {{ $labels.scope}}.
+      summary: There are not all working memebers in cluster {{ $labels.scope }}.
+    expr: sum(patroni_postgres_streaming) by (scope) < 2
+    for: 3m
+    labels:
+      severity: critical
+  - alert: ClusterIsDead
+    annotations:
+      description: Patroni cluster {{ $labels.scope }} is not working.
+      summary: Patroni cluster {{ $labels.scope }} is not working.
+    expr: sum(patroni_master) by (scope) != 1
+    for: 3m
+    labels:
+      severity: critical
+  - alert: PatroniIsDead
+    annotations:
+      description: Patroni client is not working in {{ $labels.dns_hostname }}.
+      summary: Patroni client is not working in {{ $labels.dns_hostname }}.
+    expr: irate(patroni_dcs_last_seen[1m]) == 0
+    for: 3m
+    labels:
+      severity: critical
