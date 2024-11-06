@@ -33,11 +33,10 @@
     - Reload vmalert
 
 - name: Start docker vmalert container
-  docker_compose:
+  community.docker.docker_compose_v2:
     state: present
     project_name: vmalert
     definition:
-      version: '2'
       services:
         vmalert:
           image: "{{ vmalert_docker_image }}"
@@ -53,8 +52,8 @@
 
       networks:
         default:
-          external:
-            name: "{{ vmalert_docker_network_name }}"
+          external: true
+          name: "{{ vmalert_docker_network_name }}"
   when: not vmalert_swarm_cluster or vm_swarm_manager is undefined
 
 - name: Deploy vmalert to docker swarm
